@@ -19,4 +19,8 @@
 #
 
 class User < ApplicationRecord
+  has_many :oauth_accounts
+
+  validates :login_name, presence: true, uniqueness: true
+  validates :name, presence: true
 end
