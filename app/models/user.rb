@@ -20,6 +20,8 @@
 
 class User < ApplicationRecord
   has_many :oauth_accounts
+  has_many :ownerships, as: :ownable
+  has_many :applications, through: :ownerships
 
   validates :login_name, presence: true, uniqueness: true
   validates :name, presence: true
