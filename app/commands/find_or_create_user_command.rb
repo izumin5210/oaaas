@@ -27,30 +27,32 @@ class FindOrCreateUserCommand
       provider: auth_hash['provider']
     )
 
-    unless account.persisted?
-      account.name = info['name']
-      account.nickname = info['nickname']
-      account.email = info['email']
-      case account.provider
-      when 'github'
-        account.url = info['urls']['GitHub']
-      end
-      account.image_url = info['image']
-      account.access_token = credentials['token']
-      account.access_secret = credentials['secret']
-      account.credentials = credentials.to_json
-      account.raw_info = auth_hash['extra']['raw_info'].to_json
+    account.name = info['name']
+    account.nickname = info['nickname']
+    account.email = info['email']
+    case account.provider
+    when 'github'
+      account.url = info['urls']['GitHub']
     end
+    account.image_url = info['image']
+    account.access_token = credentials['token']
+    account.access_secret = credentials['secret']
+    account.credentials = credentials.to_json
+    account.raw_info = auth_hash['extra']['raw_info'].to_json
+    account.save! if account.persisted?
 
     account
   end
 
   def find_or_create_user_by!(account:)
-    (account.user || User.new).tap do |user|
-      user.name = account.name
-      user.login_name = account.nickname
-      user.save!
-      user.oauth_accounts << accounts
+    if account.user.present?
+      account.user
+    else
+      User.create!(
+        login_name: account.name,
+        name: account.nickname,
+        oauth_accounts: [account],
+      )
     end
   end
 end
