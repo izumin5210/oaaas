@@ -11,16 +11,20 @@
 # **`description`**  | `text`             |
 # **`created_at`**   | `datetime`         | `not null`
 # **`updated_at`**   | `datetime`         | `not null`
+# **`owner_type`**   | `string`           | `not null`
+# **`owner_id`**     | `integer`          | `not null`
 #
 # ### Indexes
 #
 # * `index_applications_on_name` (_unique_):
 #     * **`name`**
+# * `index_applications_on_owner_type_and_owner_id`:
+#     * **`owner_type`**
+#     * **`owner_id`**
 #
 
 class Application < ApplicationRecord
-  has_one :ownership
-  has_one :ownable, through: :ownership
+  belongs_to :owner, polymorphic: true, required: true
 
   validates :name,
     presence: true,
