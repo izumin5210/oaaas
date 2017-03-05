@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170305140350) do
+ActiveRecord::Schema.define(version: 20170305184312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 20170305140350) do
     t.integer  "owner_id",               null: false
     t.index ["name"], name: "index_applications_on_name", unique: true, using: :btree
     t.index ["owner_type", "owner_id"], name: "index_applications_on_owner_type_and_owner_id", using: :btree
+  end
+
+  create_table "login_names", id: :string, force: :cascade do |t|
   end
 
   create_table "oauth_accounts", force: :cascade do |t|
@@ -54,4 +57,5 @@ ActiveRecord::Schema.define(version: 20170305140350) do
   end
 
   add_foreign_key "oauth_accounts", "users"
+  add_foreign_key "users", "login_names", column: "login_name"
 end

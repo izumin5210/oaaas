@@ -19,6 +19,8 @@
 #
 
 class User < ApplicationRecord
+  belongs_to :login_name, foreign_key: :login_name
+
   has_many :oauth_accounts
   has_many :applications, as: :owner
 

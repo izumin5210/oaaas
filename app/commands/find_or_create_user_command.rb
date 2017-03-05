@@ -2,7 +2,7 @@ class FindOrCreateUserCommand
   include ApplicationCommand
 
   attr_reader :auth_hash, :credentials, :info,
-    :account, :user
+    :account, :user, :login_name
 
   validates :auth_hash, presence: true
   validates :credentials, presence: true
@@ -15,13 +15,22 @@ class FindOrCreateUserCommand
   end
 
   def run
-    @account = find_or_initialize_oauth_account
-    @user = find_or_create_user_by!(account: @account)
+    ActiveRecord::Base.transaction do
+      @account = find_or_initialize_oauth_account!
+      @user = find_or_create_user_by!(account: @account)
+    end
+  rescue => e
+    if e.record.is_a? LoginName
+      @login_name = e.record
+      @login_name.errors.each do |attr, error|
+        errors.add(:login_name, :invalid, message: "login_name.#{attr}: #{error}")
+      end
+    end
   end
 
   private
 
-  def find_or_initialize_oauth_account
+  def find_or_initialize_oauth_account!
     account = OauthAccount.find_or_initialize_by(
       uid: auth_hash['uid'],
       provider: auth_hash['provider']
@@ -49,8 +58,8 @@ class FindOrCreateUserCommand
       account.user
     else
       User.create!(
-        login_name: account.name,
-        name: account.nickname,
+        login_name: LoginName.create!(id: account.nickname),
+        name: account.name,
         oauth_accounts: [account],
       )
     end
