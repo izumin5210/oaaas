@@ -18,7 +18,7 @@
 # **`access_token`**   | `string`           |
 # **`access_secret`**  | `string`           |
 # **`raw_info`**       | `text`             |
-# **`credential`**     | `text`             |
+# **`credentials`**    | `text`             |
 # **`created_at`**     | `datetime`         | `not null`
 # **`updated_at`**     | `datetime`         | `not null`
 #
