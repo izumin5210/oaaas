@@ -24,7 +24,7 @@ RSpec.describe FindOrCreateUserCommand, type: :command do
     let(:prev_login_name) { prev_nickname }
 
     before do
-      user = User.create(login_name: LoginName.new(id: prev_login_name), name: prev_name)
+      user = User.create(login_name: LoginName.create(id: prev_login_name).id, name: prev_name)
       account = OauthAccount.new(
         uid: uid,
         provider: provider,
@@ -48,7 +48,7 @@ RSpec.describe FindOrCreateUserCommand, type: :command do
       expect(OauthAccount.count).to eq 1
       expect(LoginName.count).to eq 1
       expect(cmd.user.name).to eq prev_name
-      expect(cmd.user.login_name.id).to eq prev_login_name
+      expect(cmd.user.login_name).to eq prev_login_name
       expect(cmd.account.name).to eq info['name']
       expect(cmd.account.nickname).to eq nickname
     end
@@ -57,7 +57,7 @@ RSpec.describe FindOrCreateUserCommand, type: :command do
   context 'when the login_name conflicts' do
     before do
       User.create(
-        login_name: LoginName.new(id: nickname),
+        login_name: LoginName.create(id: nickname).id,
         name: "existed #{nickname}",
       )
     end

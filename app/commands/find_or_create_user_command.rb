@@ -58,7 +58,7 @@ class FindOrCreateUserCommand
       account.user
     else
       User.create!(
-        login_name: LoginName.create!(id: account.nickname),
+        login_name: LoginName.create!(id: account.nickname).id,
         name: account.name,
         oauth_accounts: [account],
       )
