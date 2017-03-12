@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       # cmd.errors ...
     end
 
-    redirect_to root_path
+    redirect_to user_root_path
   end
 
   def destroy

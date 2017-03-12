@@ -2,5 +2,5 @@
 
 <%= render 'form', application: @application %>
 
-<%= link_to 'Show', @application %> |
-<%= link_to 'Back', applications_path %>
+<%= link_to 'Show', app_path(login_name: @owner.login_name, app_name: @application.name) %> |
+<%= link_to 'Back', apps_path(login_name: @owner.login_name) %>

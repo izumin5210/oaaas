@@ -1,2 +1,6 @@
 <h1>oaaath (OmniAuth as a Service)</h1>
-<p>Signed in as <%= current_user.name %>(<%= current_user.login_name %>)</p>
+<p>
+  Signed in as <%= current_user.name %>(<%= current_user.login_name %>)
+
+  <%= link_to 'apps', apps_path(login_name: current_user.login_name ) %>
+</p>
