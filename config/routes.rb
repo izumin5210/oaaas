@@ -14,6 +14,11 @@ Rails.application.routes.draw do
     patch  '/@:login_name/:app_name',                   to: 'applications#update'
     get    '/@:login_name/:app_name',                   to: 'applications#show', as: :app
     get    '/@:login_name/:app_name/edit',              to: 'applications#edit', as: :edit_app
+    post   '/@:login_name/:app_name/labels',            to: 'oauth_service_labels#create', as: :oauth_service_labels
+    get    '/@:login_name/:app_name/labels/new',        to: 'oauth_service_labels#new', as: :new_oauth_service_label
+    delete '/@:login_name/:app_name/labels/:id',        to: 'oauth_service_labels#destroy', as: :oauth_service_label
+    patch  '/@:login_name/:app_name/labels/:id',        to: 'oauth_service_labels#update'
+    get    '/@:login_name/:app_name/labels/:id/edit',   to: 'oauth_service_labels#edit', as: :edit_oauth_service_label
     post   '/@:login_name/:app_name/services',          to: 'oauth_services#create', as: :oauth_services
     get    '/@:login_name/:app_name/services/new',      to: 'oauth_services#new', as: :new_oauth_service
     delete '/@:login_name/:app_name/services/:id',      to: 'oauth_services#destroy'

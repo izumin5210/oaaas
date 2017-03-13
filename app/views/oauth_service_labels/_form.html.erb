@@ -1,0 +1,30 @@
+<%
+  url =
+    if oauth_service_label.persisted?
+      oauth_service_label_path(oauth_service_label, login_name: @owner.login_name, app_name: @application.name)
+    else
+      oauth_service_labels_path(login_name: @owner.login_name, app_name: @application.name)
+    end
+%>
+<%= form_for(oauth_service_label, url: url) do |f| %>
+  <% if oauth_service_label.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(oauth_service_label.errors.count, "error") %> prohibited this oauth_service_label from being saved:</h2>
+
+      <ul>
+      <% oauth_service_label.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
