@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313004452) do
+ActiveRecord::Schema.define(version: 20170313080529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,9 +61,11 @@ ActiveRecord::Schema.define(version: 20170313004452) do
   end
 
   create_table "oauth_service_labels", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",           null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "application_id", null: false
+    t.index ["application_id"], name: "index_oauth_service_labels_on_application_id", using: :btree
     t.index ["name"], name: "index_oauth_service_labels_on_name", using: :btree
   end
 
@@ -90,6 +92,7 @@ ActiveRecord::Schema.define(version: 20170313004452) do
   add_foreign_key "oauth_accounts", "users"
   add_foreign_key "oauth_service_labelings", "oauth_service_labels"
   add_foreign_key "oauth_service_labelings", "oauth_services"
+  add_foreign_key "oauth_service_labels", "applications"
   add_foreign_key "oauth_services", "applications"
   add_foreign_key "oauth_services", "oauth_providers", column: "provider"
   add_foreign_key "users", "login_names", column: "login_name"

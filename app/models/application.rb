@@ -27,6 +27,7 @@ class Application < ApplicationRecord
   belongs_to :owner, polymorphic: true, required: true
 
   has_many :oauth_services
+  has_many :oauth_service_labels
 
   validates :name,
     presence: true,
