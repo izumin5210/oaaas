@@ -23,7 +23,12 @@
 #
 
 class OauthService < ApplicationRecord
+  belongs_to :application
+
   enum provider: Global.oauth_providers.to_hash.keys.map { |id, _| [id, id] }.to_h
 
+  validates :consumer_key, presence: true
+  validates :consumer_secret, presence: true
+  validates :provider, presence: true
   validates :name, presence: true
 end
