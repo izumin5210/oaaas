@@ -2,12 +2,28 @@
 
 <h2><%= @owner.login_name %>/<%= @application.name %></h2>
 
+<h3><%= OauthService.model_name.human %></h3>
+
 <ul>
   <% @application.oauth_services.each do |service| %>
-    <li><%= link_to service.name, oauth_service_path(service, login_name: @owner.login_name, app_name: @application.name) %></li>
+    <li>
+      <%= link_to service.name, oauth_service_path(service, login_name: @owner.login_name, app_name: @application.name) %>
+      <small>
+        <%= service.labels.pluck(:name).join(', ') %>
+      </small>
+    </li>
+  <% end %>
+</ul>
+
+<h3><%= OauthServiceLabel.model_name.human %></h3>
+
+<ul>
+  <% @application.oauth_service_labels.each do |label| %>
+    <li><%= link_to label.name, edit_oauth_service_label_path(label, login_name: @owner.login_name, app_name: @application.name) %></li>
   <% end %>
 </ul>
 
 <%= link_to 'New service', new_oauth_service_path(login_name: @owner.login_name, app_name: @application.name) %> |
+<%= link_to 'New label', new_oauth_service_label_path(login_name: @owner.login_name, app_name: @application.name) %> |
 <%= link_to 'Edit', edit_app_path(@application, login_name: @owner.login_name, app_name: @application.name) %> |
 <%= link_to 'Back', apps_path(login_name: @owner.login_name) %>
