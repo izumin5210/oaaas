@@ -14,6 +14,7 @@
 # **`application_id`**   | `integer`          | `not null`
 # **`created_at`**       | `datetime`         | `not null`
 # **`updated_at`**       | `datetime`         | `not null`
+# **`name`**             | `string`           | `not null`
 #
 # ### Indexes
 #
@@ -23,4 +24,6 @@
 
 class OauthService < ApplicationRecord
   enum provider: Global.oauth_providers.to_hash.keys.map { |id, _| [id, id] }.to_h
+
+  validates :name, presence: true
 end
