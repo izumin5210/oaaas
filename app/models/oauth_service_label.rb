@@ -27,5 +27,7 @@ class OauthServiceLabel < ApplicationRecord
   has_many :services, through: :labelings,
     source: :oauth_service, class_name: OauthService.name
 
-  validates :name, presence: true
+  validates :name,
+    presence: true,
+    uniqueness: { scope: [:application_id] }
 end
