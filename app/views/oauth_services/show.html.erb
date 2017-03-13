@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h2><%= @owner.login_name %>/<%= @application.name %></h2>
+
+<dl>
+  <dt><%= OauthService.human_attribute_name("name") %></dt>
+  <dd><%= @oauth_service.name %></dd>
+
+  <dt><%= OauthService.human_attribute_name("provider") %></dt>
+  <dd><%= @oauth_service.provider %></dd>
+
+  <dt><%= OauthService.human_attribute_name("consumer_key") %></dt>
+  <dd><%= @oauth_service.consumer_key %></dd>
+
+  <dt><%= OauthService.human_attribute_name("consumer_secret") %></dt>
+  <dd><%= @oauth_service.consumer_secret %></dd>
+
+  <dt><%= OauthService.human_attribute_name("scope") %></dt>
+  <dd><%= @oauth_service.scope %></dd>
+</dl>
+
+<%= link_to 'Edit', edit_oauth_service_path(@oauth_service, login_name: @owner.login_name, app_name: @application.name) %> |
+<%= link_to 'Back', app_path(login_name: @owner.login_name, app_name: @application.name) %>

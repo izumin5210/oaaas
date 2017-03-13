@@ -1,0 +1,45 @@
+<%= form_for(oauth_service) do |f| %>
+  <% if oauth_service.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(oauth_service.errors.count, "error") %> prohibited this oauth_service from being saved:</h2>
+
+      <ul>
+      <% oauth_service.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :application_id %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :provider %>
+    <%= f.select :provider, OauthService.providers.to_a %>
+  </div>
+
+  <div>
+    <%= f.label :consumer_key %>
+    <%= f.text_field :consumer_key %>
+  </div>
+
+  <div>
+    <%= f.label :consumer_secret %>
+    <%= f.password_field :consumer_secret %>
+  </div>
+
+  <div>
+    <%= f.label :scope %>
+    <%= f.text_field :scope %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

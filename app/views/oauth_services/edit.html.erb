@@ -1,0 +1,6 @@
+<h1>Editing Oauth Service</h1>
+
+<%= render 'form', oauth_service: @oauth_service %>
+
+<%= link_to 'Show', oauth_service_path(@oauth_service, login_name: @owner.login_name, app_name: @application.name) %> |
+<%= link_to 'Back', app_path(login_name: @owner.login_name, app_name: @application.name) %>
