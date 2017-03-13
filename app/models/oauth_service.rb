@@ -25,6 +25,10 @@
 class OauthService < ApplicationRecord
   belongs_to :application
 
+  has_many :labelings, class_name: OauthServiceLabeling.name
+  has_many :labels, through: :labelings,
+    source: :oauth_service_label, class_name: OauthServiceLabel.name
+
   enum provider: Global.oauth_providers.to_hash.keys.map { |id, _| [id, id] }.to_h
 
   validates :consumer_key, presence: true

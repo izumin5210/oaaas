@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313000610) do
+ActiveRecord::Schema.define(version: 20170313004452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,22 @@ ActiveRecord::Schema.define(version: 20170313000610) do
   create_table "oauth_providers", id: :string, force: :cascade do |t|
   end
 
+  create_table "oauth_service_labelings", force: :cascade do |t|
+    t.integer  "oauth_service_id",       null: false
+    t.integer  "oauth_service_label_id", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["oauth_service_id"], name: "index_oauth_service_labelings_on_oauth_service_id", using: :btree
+    t.index ["oauth_service_label_id"], name: "index_oauth_service_labelings_on_oauth_service_label_id", using: :btree
+  end
+
+  create_table "oauth_service_labels", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_oauth_service_labels_on_name", using: :btree
+  end
+
   create_table "oauth_services", force: :cascade do |t|
     t.string   "consumer_key",    null: false
     t.string   "consumer_secret", null: false
@@ -72,6 +88,8 @@ ActiveRecord::Schema.define(version: 20170313000610) do
   end
 
   add_foreign_key "oauth_accounts", "users"
+  add_foreign_key "oauth_service_labelings", "oauth_service_labels"
+  add_foreign_key "oauth_service_labelings", "oauth_services"
   add_foreign_key "oauth_services", "applications"
   add_foreign_key "oauth_services", "oauth_providers", column: "provider"
   add_foreign_key "users", "login_names", column: "login_name"
