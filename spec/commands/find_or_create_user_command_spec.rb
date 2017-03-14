@@ -19,8 +19,8 @@ RSpec.describe FindOrCreateUserCommand, type: :command do
   end
 
   context 'when the authenticated account has been registered' do
-    let(:prev_name) { "prev_#{info['name']}" }
-    let(:prev_nickname) { "prev_#{nickname}" }
+    let(:prev_name) { "prev-#{info['name']}" }
+    let(:prev_nickname) { "prev-#{nickname}" }
     let(:prev_login_name) { prev_nickname }
 
     before do
