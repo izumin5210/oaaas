@@ -3,9 +3,8 @@ FROM ruby:2.4.0-alpine
 ENV APP /app
 WORKDIR $APP
 
-RUN apk --update add --virtual build-deps \
+RUN apk --update add \
     build-base \
-  && apk add \
     postgresql-dev \
     tzdata \
   && rm -rf /var/cache/apk/* \
@@ -19,6 +18,3 @@ RUN bundle install --jobs=4 --path vendor/bundle \
   && mkdir -p $APP/tmp/sockets
 
 COPY . $APP
-
-RUN apk del build-deps \
-  && rm -rf /var/cache/apk/*
