@@ -18,7 +18,7 @@ class OauthServicesController < ApplicationController
 
   # POST /@:login_name/:app_name/services
   def create
-    @oauth_service = OauthService.new(oauth_service_params)
+    @oauth_service = @application.oauth_services.build(oauth_service_params)
 
     if @oauth_service.save
       redirect_to oauth_service_path(@oauth_service, login_name: @owner.login_name, app_name: @application.name), notice: 'Oauth service was successfully created.'
@@ -30,7 +30,7 @@ class OauthServicesController < ApplicationController
   # PATCH /@:login_name/:app_name/services/1
   def update
     if @oauth_service.update(oauth_service_params)
-      redirect_to @oauth_service, notice: 'Oauth service was successfully updated.'
+      redirect_to oauth_service_path(@oauth_service, login_name: @owner.login_name, app_name: @application.name), notice: 'Oauth service was successfully updated.'
     else
       render :edit
     end
@@ -59,6 +59,6 @@ class OauthServicesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def oauth_service_params
       params.fetch(:oauth_service, {})
-        .permit(:consumer_key, :consumer_secret, :scope, :provider, :name, :application_id)
+        .permit(:consumer_key, :consumer_secret, :scope, :provider, :name, label_ids: [])
     end
 end

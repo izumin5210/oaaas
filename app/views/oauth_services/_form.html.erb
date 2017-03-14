@@ -1,4 +1,12 @@
-<%= form_for(oauth_service) do |f| %>
+<%
+  url =
+    if oauth_service.persisted?
+      oauth_service_path(oauth_service, login_name: @owner.login_name, app_name: @application.name)
+    else
+      oauth_services_path(login_name: @owner.login_name, app_name: @application.name)
+    end
+%>
+<%= form_for(oauth_service, url: url) do |f| %>
   <% if oauth_service.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(oauth_service.errors.count, "error") %> prohibited this oauth_service from being saved:</h2>
@@ -10,8 +18,6 @@
       </ul>
     </div>
   <% end %>
-
-  <%= f.hidden_field :application_id %>
 
   <div>
     <%= f.label :name %>
@@ -30,7 +36,7 @@
 
   <div>
     <%= f.label :consumer_secret %>
-    <%= f.password_field :consumer_secret %>
+    <%= f.text_field :consumer_secret %>
   </div>
 
   <div>
@@ -38,6 +44,10 @@
     <%= f.text_field :scope %>
   </div>
 
+  <div>
+    <%= f.label :labels %>
+    <%= f.collection_check_boxes :label_ids, @application.oauth_service_labels, :id, :name %>
+  </div>
 
   <div class="actions">
     <%= f.submit %>
